@@ -1,0 +1,302 @@
+openapi: 3.0.0
+info:
+  title: Microblog
+  description: Uma api para uma aplicação de microblog
+  version: "0.1"
+  
+paths:
+
+  /api/autenticate:
+    post:
+      summary: Autentica um usuário no aplicativo
+      description: Realiza a autenticação de um usuário no aplicativo gerando um toke de autenticação JWT
+      operationId: authUser
+      requestBody:
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/UserAuth'
+              
+      responses:
+        '200':
+          description: Usuário autenticado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: 
+                    type: string
+    
+        '400': 
+          description: Usuário ou senha inválidos
+
+  /api/users/create:
+    post:
+      summary: Cria um novo usuário
+      description: Cadastra um novo usuário no sistema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+        '400':
+          description: Campos inválidos
+        '409':
+          description: Usuário já existe
+          
+  /api/users/{userId}:
+    get:
+      summary: Retorna dados de um usuário
+      description: Retorna as informações de um usuário
+      parameters:
+        - name: userId
+          in: path
+          description: uuid do usuário
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: um recurso usuário
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+            description: Usuário não encontrado
+        
+      
+  
+  /api/users/{userId}/update:
+    put:
+      summary: Atualiaza um Usuário
+      description: Atualizado os dao
+      parameters:
+        - name: userId
+          in: path
+          description: uuid do usuário 
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+          '200':
+            description: Usuário Alterado com sucesso        
+          '400':
+            description: Campos inválidos
+          '404':
+            description: Usuário não encontrado
+            
+  /api/users/{userId}/photo:
+    put:
+      summary: Atualiza foto de perfil
+      description: Atualiza a foto de perfil recebendo uma foto em base64 encoded
+      parameters:
+        - name: userId
+          in: path
+          description: uuid do usuário
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: 
+          application/json:
+            schema: 
+              type: object
+              properties:
+                photo: 
+                  type: string
+                  description: um arquivo de imagem encodade em base64
+                  example: data:image/jpeg;base64, LzlqLzRBQ...
+      responses:
+        '200':
+          description: Foto atualizada com sucesso
+        '400':
+          description: Campos inválidos
+        '404':
+          description: Usuário não encontrado     
+        
+        
+
+  /api/posts/create:
+    post:
+      summary: Cria uma nova postagem
+      description: Cria uma nova postagem associada
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreate'
+      responses:
+        '200':
+          description: Postagem criada com sucess
+            
+  /api/posts/{postId}/delete:
+    delete:
+      summary: Deleta uma postagem
+      description: Deleta uma postagem
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: uudi da postagem
+      responses:
+        '200':
+          description: Postagem deletada com sucess
+        '404':
+          description: Postagem não encontrada
+          
+  /api/posts/timeline:
+    get:
+      summary: Retorna as postagens da timeline
+      description: Retorna as postagem da timeline do usuário, a timeline é composta das postagens dos usuários que o segue.
+      parameters:
+        - name: since
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: until
+          in: query
+          required: false
+          schema: 
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: lista de postagens da timeline
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+            
+            
+  
+  /api/users/{userId}/follow:
+    post:
+      summary: Registra um follow
+      description: Registra que o usuario cliente esta seguindo as postagens do usuario que foi passado o userId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: uuid de um usuario
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Seguido usuário com sucesso
+        '404':
+          description: Usuário não encontrado
+          
+
+  /api/users/{userId}/unfollow:
+    post:
+      summary: Registra um unfollow
+      description: Registra que o usuario cliente parou de seguir as postagens do usuario que foi passado o userId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: uuid de um usuario
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Usuário deixadi de seguir com sucess com sucesso
+        '404':
+          description: Usuário não encontrado
+          
+
+
+components:
+  schemas:
+    UserAuth:
+      type: object
+      properties:
+        username: 
+          type: string
+          example: rodrigo
+        password:
+          type: string
+          example: password
+    
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          example: rodrigo
+        email:
+          type: string
+          example: rodrigoaramburu@gmail.com
+        password:
+          type: string
+          example: secredo!
+          
+    UserUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+          example: d8228d83-dbb5-4086-8808-b1bd790eb1e8
+        username:
+          type: string
+          example: rodrigo
+        email:
+          type: string
+          example: rodrigoaramburu@gmail.com
+        password:
+          type: string
+          example: secredo!
+          
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: d8228d83-dbb5-4086-8808-b1bd790eb1e8
+        username:
+          type: string
+          example: rodrigo
+        email:
+          type: string
+          example: rodrigoaramburu@gmail.com
+        photo:
+          type: string
+          example: http://localhost:8080/pictures/rodrigo
+    
+    PostCreate:
+      type: object
+      properties:
+        text:
+          type: string
+          
+    
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        created:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+            
+        
