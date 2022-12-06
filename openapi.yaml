@@ -3,7 +3,8 @@ info:
   title: Microblog
   description: Uma api para uma aplicação de microblog
   version: "0.1"
-  
+servers: 
+  - url: http://localhost:8080/
 paths:
 
   /api/autenticate:
@@ -275,6 +276,9 @@ components:
         email:
           type: string
           example: rodrigoaramburu@gmail.com
+        createAt: 
+          type: string
+          format: date-time
         photo:
           type: string
           example: http://localhost:8080/pictures/rodrigo
