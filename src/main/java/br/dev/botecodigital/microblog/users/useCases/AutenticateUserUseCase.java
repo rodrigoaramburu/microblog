@@ -5,7 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.dev.botecodigital.microblog.JwtGenerator;
+import br.dev.botecodigital.microblog.security.BCrypt;
+import br.dev.botecodigital.microblog.security.JwtGenerator;
 import br.dev.botecodigital.microblog.users.dto.UserAuthDTO;
 import br.dev.botecodigital.microblog.users.model.User;
 import br.dev.botecodigital.microblog.users.repositories.UserRepository;
@@ -27,7 +28,7 @@ public class AutenticateUserUseCase {
 			return Optional.empty();
 		}
 		User user = optionalUser.get();
-		if(user.getPassword().equals(userAuthDTO.getPassword())) {
+		if( BCrypt.checkpw(userAuthDTO.getPassword(), user.getPassword())) {
 			
 			return Optional.of( this.jwtGenerator.generateToken(user) );
 			

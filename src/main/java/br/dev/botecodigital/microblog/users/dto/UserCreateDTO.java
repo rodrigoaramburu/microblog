@@ -1,5 +1,6 @@
 package br.dev.botecodigital.microblog.users.dto;
 
+import br.dev.botecodigital.microblog.security.BCrypt;
 import br.dev.botecodigital.microblog.users.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +36,7 @@ public class UserCreateDTO {
 		return new User(
 			this.username,
 			this.email,
-			this.password
+			BCrypt.hashpw(this.password, BCrypt.gensalt(12))
 		);
 	}
 	

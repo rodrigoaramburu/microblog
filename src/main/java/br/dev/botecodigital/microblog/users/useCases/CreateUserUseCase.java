@@ -35,7 +35,6 @@ public class CreateUserUseCase {
 		if(!conflicts.isEmpty()) {
 			throw new ConflictUserException(conflicts);			
 		}
-
 		this.userRepository.save(user);
 		return user;
 	}
