@@ -29,7 +29,7 @@ paths:
                   token: 
                     type: string
     
-        '400': 
+        '401': 
           description: Usuário ou senha inválidos
 
   /api/users/create:
