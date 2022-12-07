@@ -1,11 +1,8 @@
 package br.dev.botecodigital.microblog.shared;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -18,11 +15,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.dev.botecodigital.microblog.shared.exceptions.ResourceNotFoundException;
 import br.dev.botecodigital.microblog.users.exceptions.ConflictUserException;
 
 @ControllerAdvice
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler {	
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request){
+		Map<String, Object> error = new HashMap<String, Object>();
+		error.put("code", 404);
+		error.put("message", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
 	@ExceptionHandler(ConflictUserException.class)
 	public ResponseEntity<Object> handleConflictUserException(ConflictUserException ex, WebRequest request){
 		

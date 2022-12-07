@@ -49,17 +49,19 @@ paths:
         '409':
           description: Usuário já existe
           
-  /api/users/{userId}:
+  /api/users/{username}:
     get:
       summary: Retorna dados de um usuário
       description: Retorna as informações de um usuário
       parameters:
-        - name: userId
+        - name: username
           in: path
-          description: uuid do usuário
+          description: username do usuário
           required: true
           schema: 
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: um recurso usuário
@@ -88,6 +90,8 @@ paths:
           application/json:
             schema: 
               $ref: '#/components/schemas/UserUpdate'
+      security:
+        - bearerAuth: []
       responses:
           '200':
             description: Usuário Alterado com sucesso        
@@ -107,6 +111,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       requestBody:
         content: 
           application/json:
@@ -136,6 +142,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PostCreate'
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Postagem criada com sucess
@@ -151,6 +159,8 @@ paths:
           schema:
             type: string
           description: uudi da postagem
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Postagem deletada com sucess
@@ -174,6 +184,8 @@ paths:
           schema: 
             type: string
             format: date-time
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: lista de postagens da timeline
@@ -197,6 +209,8 @@ paths:
           description: uuid de um usuario
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200': 
           description: Seguido usuário com sucesso
@@ -215,6 +229,8 @@ paths:
           description: uuid de um usuario
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200': 
           description: Usuário deixadi de seguir com sucess com sucesso
@@ -224,6 +240,12 @@ paths:
 
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+
   schemas:
     UserAuth:
       type: object

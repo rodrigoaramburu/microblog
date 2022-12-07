@@ -3,6 +3,9 @@ package br.dev.botecodigital.microblog.users.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import br.dev.botecodigital.microblog.users.model.User;
 
 
@@ -10,6 +13,8 @@ public class UserDTO {
 
 	private String username;
 	private String email;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'" )
 	private LocalDateTime createAt;
 	private String photo;
 
