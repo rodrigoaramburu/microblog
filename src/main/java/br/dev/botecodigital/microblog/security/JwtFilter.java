@@ -52,7 +52,7 @@ public class JwtFilter extends GenericFilterBean {
 
 		try {
 			Claims claims = generateClaim(token);
-			request.setAttribute("username", claims.getSubject());
+			request.setAttribute("authUserId", claims.getSubject());
 			chain.doFilter(request, response);
 		} catch (SignatureException ex) {
 			Map<String, String> error = Maps.of("code", "401").and("message", "Token inválido").build();

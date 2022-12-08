@@ -20,7 +20,7 @@ public class CreateUserController {
 	@Autowired
 	private CreateUserUseCase createUserUseCase;
 	
-	@PostMapping(value = "/api/users/create")
+	@PostMapping(value = "/api/register")
 	public ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO){
 		
 		User user = this.createUserUseCase.execute(userCreateDTO.createUser());

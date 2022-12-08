@@ -23,7 +23,7 @@ public class JwtGenerator {
 	    Key key = getSigningKey();
 	    	    
 	    String jwtToken = Jwts.builder()
-	    			.setSubject(user.getUsername())
+	    			.setSubject(user.getId().toString())
 	    			.setIssuedAt(new Date())
 	    			.signWith(key)
 	    			.compact();
