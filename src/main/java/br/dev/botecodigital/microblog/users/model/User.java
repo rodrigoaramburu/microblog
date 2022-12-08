@@ -32,6 +32,7 @@ public class User {
 	
 	private LocalDateTime createAt;
 
+	@Column(nullable = true)
 	private String photo; 
 	
 	public User() {}
