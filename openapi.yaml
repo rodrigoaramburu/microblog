@@ -32,7 +32,7 @@ paths:
         '401': 
           description: Usuário ou senha inválidos
 
-  /api/users/create:
+  /api/register:
     post:
       summary: Cria um novo usuário
       description: Cadastra um novo usuário no sistema
@@ -74,17 +74,10 @@ paths:
         
       
   
-  /api/users/{userId}/update:
+  /api/users/update:
     put:
       summary: Atualiaza um Usuário
-      description: Atualizado os dao
-      parameters:
-        - name: userId
-          in: path
-          description: uuid do usuário 
-          required: true
-          schema:
-            type: string
+      description: Atualizado os dados do usuário autenticado
       requestBody:
         content: 
           application/json:
@@ -97,8 +90,6 @@ paths:
             description: Usuário Alterado com sucesso        
           '400':
             description: Campos inválidos
-          '404':
-            description: Usuário não encontrado
             
   /api/users/{userId}/photo:
     put:
@@ -273,9 +264,6 @@ components:
     UserUpdate:
       type: object
       properties:
-        id:
-          type: string
-          example: d8228d83-dbb5-4086-8808-b1bd790eb1e8
         username:
           type: string
           example: rodrigo
