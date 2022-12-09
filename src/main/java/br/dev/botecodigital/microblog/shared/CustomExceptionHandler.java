@@ -15,11 +15,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.dev.botecodigital.microblog.post.exceptions.PostNotBelongsToUser;
 import br.dev.botecodigital.microblog.shared.exceptions.ResourceNotFoundException;
 import br.dev.botecodigital.microblog.users.exceptions.ConflictUserException;
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {	
+	
+	@ExceptionHandler(PostNotBelongsToUser.class)
+	public ResponseEntity<Object> handleResourceNotFoundException(PostNotBelongsToUser ex, WebRequest request){
+		Map<String, Object> error = new HashMap<String, Object>();
+		error.put("code", 403);
+		error.put("message", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request){
