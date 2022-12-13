@@ -26,7 +26,7 @@ public class AuthUserController {
 	@PostMapping(value="/api/autenticate")
 	public ResponseEntity<Object> autenticate(@RequestBody @Valid UserAuthDTO userAuthDTO){
 		
-		Optional<String> token = this.autenticateUserUseCase.execute(userAuthDTO);
+		Optional<Map<String, Object>> token = this.autenticateUserUseCase.execute(userAuthDTO);
 		
 		if(token.isEmpty()) {
 			Map<String,String> error = new HashMap<>();
@@ -35,9 +35,6 @@ public class AuthUserController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
 		}
 		
-		
-		Map<String,String> tokenResponse = new HashMap<>();
-		tokenResponse.put("token", token.get());
-		return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
+		return ResponseEntity.status(HttpStatus.OK).body(token);
 	}
 }
