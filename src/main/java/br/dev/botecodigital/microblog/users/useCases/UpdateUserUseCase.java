@@ -20,7 +20,7 @@ public class UpdateUserUseCase {
 	@Autowired
 	private UserRepository userRepository;
 
-	public void execute(UUID uuid, @Valid UserUpdateDTO userUpdateDTO) {
+	public User execute(UUID uuid, @Valid UserUpdateDTO userUpdateDTO) {
 		Optional<User> optionalUser = this.userRepository.findById(uuid);
 		
 		if(!optionalUser.isPresent()) {
@@ -45,6 +45,8 @@ public class UpdateUserUseCase {
 		
 		
 		userRepository.save(user);
+		
+		return user;
 	}
 
 	private boolean checkEmailAvaliable(User user, String email) {

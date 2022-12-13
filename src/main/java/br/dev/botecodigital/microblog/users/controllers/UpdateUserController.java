@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.dev.botecodigital.microblog.users.dto.UserDTO;
 import br.dev.botecodigital.microblog.users.dto.UserUpdateDTO;
+import br.dev.botecodigital.microblog.users.model.User;
 import br.dev.botecodigital.microblog.users.useCases.UpdateUserUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -23,12 +25,12 @@ public class UpdateUserController {
 	private UpdateUserUseCase updateUserUseCase;
 
 	@PutMapping(value = "/api/users/update")
-	public ResponseEntity<UserUpdateDTO> updateUser(HttpServletRequest request,
+	public ResponseEntity<UserDTO> updateUser(HttpServletRequest request,
 			@RequestBody @Valid UserUpdateDTO userUpdateDTO) {
 
 		UUID authUserId = UUID.fromString((String) request.getAttribute("authUserId"));
-		this.updateUserUseCase.execute(authUserId, userUpdateDTO);
+		User user = this.updateUserUseCase.execute(authUserId, userUpdateDTO);
 
-		return ResponseEntity.status(HttpStatus.OK).body(userUpdateDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(user));
 	}
 }
