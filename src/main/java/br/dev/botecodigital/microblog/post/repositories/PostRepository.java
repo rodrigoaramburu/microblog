@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import br.dev.botecodigital.microblog.post.model.Post;
+import br.dev.botecodigital.microblog.users.model.User;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, UUID>{
@@ -31,6 +32,9 @@ public interface PostRepository extends CrudRepository<Post, UUID>{
 			+ "		p.createAt > :after "
 			+ "ORDER BY p.createAt DESC")
 	List<Post> timelineUpdate(UUID userId, LocalDateTime after);
+
+	
+	List<Post> findByUser(User user, PageRequest pageRequest);
 
 
 }
