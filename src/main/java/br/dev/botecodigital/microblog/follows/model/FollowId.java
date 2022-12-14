@@ -1,7 +1,5 @@
 package br.dev.botecodigital.microblog.follows.model;
 
-import java.util.UUID;
-
 import br.dev.botecodigital.microblog.users.model.User;
 
 public class FollowId {

@@ -1,7 +1,6 @@
 package br.dev.botecodigital.microblog.follows.model;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import br.dev.botecodigital.microblog.users.model.User;
 import jakarta.persistence.Entity;
