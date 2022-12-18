@@ -34,7 +34,7 @@ public interface PostRepository extends CrudRepository<Post, UUID>{
 	List<Post> timelineUpdate(UUID userId, LocalDateTime after);
 
 	
-	List<Post> findByUser(User user, PageRequest pageRequest);
+	List<Post> findByUserOrderByCreateAtDesc(User user, PageRequest pageRequest);
 
 
 }

@@ -29,7 +29,7 @@ public class UserPostUseCase {
 		}
 		User user = optinalUser.get();
 		
-		List<Post> posts = this.postReposiotry.findByUser(user, PageRequest.of(page, 2));
+		List<Post> posts = this.postReposiotry.findByUserOrderByCreateAtDesc(user, PageRequest.of(page, 20));
 		
 		return posts;
 	}
